@@ -1,0 +1,162 @@
+/* 기본 설정 및 폰트 적용 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gaegu', cursive;
+    /* 귀여운 손글씨 폰트 */
+    background-color: #f0f8ff;
+    /* 아주 연한 하늘색 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 게임 컨테이너 */
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 랫킨들이 활동하는 월드 */
+#world {
+    position: relative;
+    width: 90%;
+    height: 80%;
+    background-color: #f1f8e9;
+    /* 눈이 편안한 연두색/베이지 톤 */
+    border: 4px solid #a5d6a7;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* 랫킨이 밖으로 나가지 않도록 */
+    background-image:
+        radial-gradient(#dcedc8 20%, transparent 20%),
+        radial-gradient(#dcedc8 20%, transparent 20%);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+}
+
+/* 컨트롤 패널 */
+#controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+}
+
+/* 버튼 스타일 */
+.btn {
+    font-family: 'Gaegu', cursive;
+    font-size: 1.5rem;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 생성 버튼 (메인) */
+#generate-btn {
+    background-color: #ffccbc;
+    /* 파스텔 오렌지 */
+    color: #5d4037;
+}
+
+#generate-btn:hover {
+    background-color: #ffab91;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+#generate-btn:active {
+    transform: translateY(0);
+}
+
+/* 초기화 버튼 (보조) */
+#reset-btn {
+    background-color: #cfd8dc;
+    /* 파스텔 그레이 */
+    color: #455a64;
+}
+
+#reset-btn:hover {
+    background-color: #b0bec5;
+    transform: translateY(-2px);
+}
+
+/* 랫킨 캐릭터 컨테이너 (위치 담당) */
+.ratkin {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s linear;
+    /* 부드러운 이동 */
+    z-index: 5;
+    /* 👇 이 줄을 추가하여 크기를 2배로 확대합니다. 👇 */
+    transform: scale(1.5);
+}
+
+/* 랫킨 스프라이트 (이미지 및 애니메이션 담당) */
+.ratkin-sprite {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    /* background-image는 JS에서 설정 */
+}
+
+/* 말풍선 스타일 */
+.bubble {
+    position: absolute;
+    background: white;
+    border: 2px solid #ffccbc;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #5d4037;
+    white-space: nowrap;
+    pointer-events: none;
+    /* 말풍선이 클릭을 방해하지 않도록 */
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* 위치 고정 (스프라이트 반전과 무관하게) */
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 말풍선 꼬리 */
+.bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px 6px 0;
+    border-style: solid;
+    border-color: #ffccbc transparent transparent transparent;
+}
+
+@keyframes pop-in {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.5) translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) translateY(0);
+    }
+}

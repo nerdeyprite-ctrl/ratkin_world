@@ -1,7 +1,269 @@
 /* 기본 설정 및 폰트 적용 */
 :root {
     --bg-outer: #37474f;
+    /* 어두운 회색 (Blue Grey 800) *//* 기본 설정 및 폰트 적용 */
+:root {
+    --bg-outer: #37474f;
     /* 어두운 회색 (Blue Grey 800) */
+    --bg-inner: #263238;
+    /* 더 어두운 회색 (Blue Grey 900) */
+    --bg-border: #455a64;
+    /* 테두리 (Blue Grey 700) */
+    --bg-pattern: #1c2529;
+    /* 패턴 (Inner보다 약간 더 어둡게) */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gaegu', cursive;
+    /* 귀여운 손글씨 폰트 */
+    background-color: var(--bg-outer);
+    /* 배경색 변수 사용 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s;
+}
+
+/* 게임 컨테이너 */
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 랫킨들이 활동하는 월드 */
+#world {
+    position: relative;
+    width: 90%;
+    height: 80%;
+    background-color: var(--bg-inner);
+    /* 월드 배경색 변수 사용 */
+    border: 4px solid var(--bg-border);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* 랫킨이 밖으로 나가지 않도록 */
+    background-image:
+        radial-gradient(var(--bg-pattern) 20%, transparent 20%),
+        radial-gradient(var(--bg-pattern) 20%, transparent 20%);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* 컨트롤 패널 */
+#controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+    align-items: center;
+    flex-wrap: wrap;
+    /* 모바일에서 줄바꿈 허용 */
+}
+
+/* 커스텀 컨트롤 스타일 */
+.custom-controls {
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 5px 15px;
+    border-radius: 50px;
+    align-items: center;
+}
+
+.custom-controls label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.custom-controls input[type="color"] {
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+}
+
+.custom-controls input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.custom-controls input[type="color"]::-webkit-color-swatch {
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 */
+.btn {
+    font-family: 'Gaegu', cursive;
+    font-size: 1.5rem;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 생성 버튼 (메인) */
+#generate-btn {
+    background-color: #ffccbc;
+    /* 파스텔 오렌지 */
+    color: #5d4037;
+}
+
+#generate-btn:hover {
+    background-color: #ffab91;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+#generate-btn:active {
+    transform: translateY(0);
+}
+
+/* 초기화 버튼 (보조) */
+#reset-btn {
+    background-color: #cfd8dc;
+    /* 파스텔 그레이 */
+    color: #455a64;
+}
+
+#reset-btn:hover {
+    background-color: #b0bec5;
+    transform: translateY(-2px);
+}
+
+/* 랫킨 캐릭터 컨테이너 (위치 담당) */
+.ratkin {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s linear;
+    /* 부드러운 이동 */
+    z-index: 5;
+    /* 👇 이 줄을 추가하여 크기를 2배로 확대합니다. 👇 */
+    transform: scale(1.5);
+}
+
+/* 랫킨 스프라이트 (이미지 및 애니메이션 담당) */
+.ratkin-sprite {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    /* background-image는 JS에서 설정 */
+}
+
+/* 말풍선 스타일 */
+.bubble {
+    position: absolute;
+    background: white;
+    border: 2px solid #ffccbc;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #5d4037;
+    white-space: nowrap;
+    pointer-events: none;
+    /* 말풍선이 클릭을 방해하지 않도록 */
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* 위치 고정 (스프라이트 반전과 무관하게) */
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* 말풍선 꼬리 */
+.bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px 6px 0;
+    border-style: solid;
+    border-color: #ffccbc transparent transparent transparent;
+}
+
+@keyframes pop-in {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.5) translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) translateY(0);
+    }
+}
+
+/* 모바일 최적화 (반응형) */
+@media (max-width: 768px) {
+
+    /* 월드 크기 조정: 모바일에서는 더 넓게 사용 */
+    #world {
+        width: 95%;
+        height: 75%;
+        border-width: 3px;
+    }
+
+    /* 컨트롤 패널 조정 */
+    #controls {
+        width: 90%;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* 버튼 크기 및 터치 영역 확대 */
+    .btn {
+        font-size: 1.2rem;
+        padding: 12px 20px;
+        width: 100%;
+        /* 버튼을 꽉 차게 */
+        max-width: 200px;
+    }
+
+    /* 말풍선 폰트 크기 조정 */
+    .bubble {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) {
+
+    /* 호버 효과 대신 터치 시 반응 강화 */
+    #generate-btn:active {
+        transform: scale(0.95);
+    }
+
+    #reset-btn:active {
+        transform: scale(0.95);
+    }
+}
     --bg-inner: #263238;
     /* 더 어두운 회색 (Blue Grey 900) */
     --bg-border: #455a64;

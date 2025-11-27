@@ -15,7 +15,7 @@ const IDLE_FLIP_INTERVAL = 700; // 대기 중 방향 전환 간격 (0.7초)
 
 const WALK_SPEED = 1; // 걷기 속도
 const RUN_SPEED = 3;  // 뛰기 속도
-const AUTO_SPEECH_CHANCE = 0.005; // 프레임당 자동 대사 확률 (약 0.5%)
+const AUTO_SPEECH_CHANCE = 0.002; // 프레임당 자동 대사 확률 (약 0.2%)
 const COLLISION_DISTANCE = 40; // 충돌 감지 거리 (픽셀)
 
 // DOM 요소 가져오기

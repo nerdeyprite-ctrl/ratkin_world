@@ -147,27 +147,43 @@ body {
     transform: translateY(-2px);
 }
 
-/* 랫킨 캐릭터 컨테이너 (위치 담당) */
+/* 랫킨 캐릭터 */
 .ratkin {
     position: absolute;
     width: 48px;
     height: 48px;
-    cursor: pointer;
+    /* transition: left 0.1s linear, top 0.1s linear; */
+    /* 부드러운 이동을 위해 트랜지션 제거 (JS로 매 프레임 업데이트) */
+    cursor: grab;
+    /* 잡을 수 있다는 표시 */
     user-select: none;
-    transition: transform 0.1s linear;
-    /* 부드러운 이동 */
-    z-index: 5;
-    /* 👇 이 줄을 추가하여 크기를 2배로 확대합니다. 👇 */
-    transform: scale(1.5);
+    /* 드래그 시 텍스트 선택 방지 */
+    transform-origin: center bottom;
+    /* 확대 시 발 밑을 기준으로 커지도록 */
 }
 
-/* 랫킨 스프라이트 (이미지 및 애니메이션 담당) */
+/* 드래그 중인 랫킨 스타일 */
+.ratkin.dragging {
+    cursor: grabbing;
+    /* 잡고 있다는 표시 */
+    z-index: 1000;
+    /* 다른 랫킨들보다 위에 표시 */
+    transition: none;
+    /* 즉각적인 반응 */
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.3));
+    /* 그림자 효과로 떠있는 느낌 */
+}
+
+/* 랫킨 스프라이트 (이미지 담당) */
 .ratkin-sprite {
-    width: 100%;
-    height: 100%;
-    image-rendering: pixelated;
+    width: 48px;
+    height: 48px;
+    background-image: url('assets/ratkin_walk_sheet.png');
+    background-size: 96px 48px;
+    /* 2프레임 스프라이트 시트 */
     background-repeat: no-repeat;
-    /* background-image는 JS에서 설정 */
+    image-rendering: pixelated;
+    /* 도트 느낌을 원하면 주석 해제 */
 }
 
 /* 말풍선 스타일 */
@@ -176,8 +192,10 @@ body {
     background: white;
     border: 2px solid #ffccbc;
     border-radius: 10px;
-    padding: 5px 10px;
-    font-size: 14px;
+    padding: 3px 6px;
+    /* 패딩 축소 */
+    font-size: 11px;
+    /* 폰트 크기 축소 */
     color: #5d4037;
     white-space: nowrap;
     pointer-events: none;

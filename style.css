@@ -1,16 +1,28 @@
 /* 기본 설정 및 폰트 적용 */
+:root {
+    --bg-outer: #37474f;
+    /* 어두운 회색 (Blue Grey 800) */
+    --bg-inner: #263238;
+    /* 더 어두운 회색 (Blue Grey 900) */
+    --bg-border: #455a64;
+    /* 테두리 (Blue Grey 700) */
+    --bg-pattern: #1c2529;
+    /* 패턴 (Inner보다 약간 더 어둡게) */
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: 'Gaegu', cursive;
     /* 귀여운 손글씨 폰트 */
-    background-color: #f0f8ff;
-    /* 아주 연한 하늘색 배경 */
+    background-color: var(--bg-outer);
+    /* 배경색 변수 사용 */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     overflow: hidden;
+    transition: background-color 0.3s;
 }
 
 /* 게임 컨테이너 */
@@ -29,18 +41,19 @@ body {
     position: relative;
     width: 90%;
     height: 80%;
-    background-color: #f1f8e9;
-    /* 눈이 편안한 연두색/베이지 톤 */
-    border: 4px solid #a5d6a7;
+    background-color: var(--bg-inner);
+    /* 월드 배경색 변수 사용 */
+    border: 4px solid var(--bg-border);
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     /* 랫킨이 밖으로 나가지 않도록 */
     background-image:
-        radial-gradient(#dcedc8 20%, transparent 20%),
-        radial-gradient(#dcedc8 20%, transparent 20%);
+        radial-gradient(var(--bg-pattern) 20%, transparent 20%),
+        radial-gradient(var(--bg-pattern) 20%, transparent 20%);
     background-size: 20px 20px;
     background-position: 0 0, 10px 10px;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 /* 컨트롤 패널 */
@@ -49,6 +62,48 @@ body {
     display: flex;
     gap: 15px;
     z-index: 100;
+    align-items: center;
+    flex-wrap: wrap;
+    /* 모바일에서 줄바꿈 허용 */
+}
+
+/* 커스텀 컨트롤 스타일 */
+.custom-controls {
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 5px 15px;
+    border-radius: 50px;
+    align-items: center;
+}
+
+.custom-controls label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.custom-controls input[type="color"] {
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+}
+
+.custom-controls input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.custom-controls input[type="color"]::-webkit-color-swatch {
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 버튼 스타일 */
@@ -158,5 +213,51 @@ body {
     100% {
         opacity: 1;
         transform: translateX(-50%) scale(1) translateY(0);
+    }
+}
+
+/* 모바일 최적화 (반응형) */
+@media (max-width: 768px) {
+
+    /* 월드 크기 조정: 모바일에서는 더 넓게 사용 */
+    #world {
+        width: 95%;
+        height: 75%;
+        border-width: 3px;
+    }
+
+    /* 컨트롤 패널 조정 */
+    #controls {
+        width: 90%;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* 버튼 크기 및 터치 영역 확대 */
+    .btn {
+        font-size: 1.2rem;
+        padding: 12px 20px;
+        width: 100%;
+        /* 버튼을 꽉 차게 */
+        max-width: 200px;
+    }
+
+    /* 말풍선 폰트 크기 조정 */
+    .bubble {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) {
+
+    /* 호버 효과 대신 터치 시 반응 강화 */
+    #generate-btn:active {
+        transform: scale(0.95);
+    }
+
+    #reset-btn:active {
+        transform: scale(0.95);
     }
 }

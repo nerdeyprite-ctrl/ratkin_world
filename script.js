@@ -476,6 +476,196 @@ class Ratkin {
     }
 }
 
+/**
+ * 성자 랫킨 클래스 (Ratkin 상속)
+ * 10% 확률로 등장하며 기도하는 행동을 함
+ */
+class SaintRatkin extends Ratkin {
+    constructor(id) {
+        super(id);
+        // 초기 이미지 설정 (성자 걷기)
+        this.spriteElement.style.backgroundImage = "url('assets/saint_ratkin_walk_sheet.png')";
+        this.spriteElement.style.backgroundSize = ''; // 기본값 사용 (96px 48px)
+    }
+
+    /**
+     * 행동 결정 (오버라이드)
+     */
+    makeDecision() {
+        if (this.isDragging) return;
+
+        const rand = Math.random();
+
+        // 10% 확률로 Pray (기도)
+        if (rand < 0.1) {
+            this.state = 'pray';
+            this.speed = 0;
+            this.vx = 0;
+            this.vy = 0;
+            this.decisionDuration = 10000; // 10초
+            this.spriteElement.style.backgroundImage = "url('assets/saint_ratkin_pray_sheet.png')";
+            this.spriteElement.style.backgroundSize = '48px 48px'; // 단일 프레임 크기 고정
+            this.idleFlipTimer = 0;
+
+            // 기도 시작 시 대사 (100% 확률)
+            this.sayHello('pray');
+        }
+        // 90% 확률로 Walk (걷기)
+        else {
+            this.state = 'walk';
+            this.speed = WALK_SPEED;
+            this.decisionDuration = DECISION_INTERVAL; // 3초
+            this.spriteElement.style.backgroundImage = "url('assets/saint_ratkin_walk_sheet.png')";
+            this.spriteElement.style.backgroundSize = ''; // 기본값 복구
+            this.setRandomVelocity();
+        }
+    }
+
+    /**
+     * 드래그 시작 (오버라이드)
+     */
+    handleDragStart(e) {
+        super.handleDragStart(e); // 기본 로직 실행 (상태 변경, 오프셋 계산 등)
+
+        // 이미지 변경 (기도하는 모습으로 매달림)
+        this.spriteElement.style.backgroundImage = "url('assets/saint_ratkin_pray_sheet.png')";
+        this.spriteElement.style.backgroundSize = '48px 48px'; // 단일 프레임 크기 고정
+
+        // 대사 처리 (50% 확률)
+        if (Math.random() < 0.5) {
+            this.sayHello('drag');
+        }
+    }
+
+    /**
+     * 드롭 (오버라이드)
+     */
+    handleDrop() {
+        this.isDragging = false;
+        this.element.classList.remove('dragging');
+
+        // 상태 변경: 기도 (착지 후 감사 기도)
+        this.state = 'pray';
+
+        // 이미지 변경
+        this.spriteElement.style.backgroundImage = "url('assets/saint_ratkin_pray_sheet.png')";
+        this.spriteElement.style.backgroundSize = '48px 48px'; // 단일 프레임 크기 고정
+
+        this.lastDecisionTime = Date.now();
+        this.decisionDuration = 3000; // 3초간 유지
+
+        // 대사 처리 (100% 확률)
+        this.sayHello('drop');
+    }
+
+    /**
+     * 말풍선 띄우기 (오버라이드)
+     */
+    sayHello(forcedState = null) {
+        // 기존 말풍선 제거
+        if (this.element.querySelector('.bubble')) {
+            this.element.querySelector('.bubble').remove();
+        }
+
+        let message = "";
+        let duration = 2000; // 기본 지속 시간
+
+        const targetState = forcedState || this.state;
+
+        if (targetState === 'pray') {
+            message = "쥐의 신, 설치류의 군주, 햄스터 바퀴를 돌리는 군주, \n 내 마음속 가려움을 긁어 주는 군주께 기도합니다..";
+            duration = 10000; // 기도 시간만큼 유지
+        } else if (targetState === 'drag') {
+            message = "찍찍이 군주님 살려주세요...";
+        } else if (targetState === 'drop') {
+            message = "군주께 감사드립니다...";
+            duration = 3000; // 3초 유지
+        } else {
+            // 그 외 상태는 일반 랫킨과 동일하거나 침묵
+            if (Math.random() < 0.1) {
+                message = "총총총...";
+            } else {
+                return; // 말 안함
+            }
+        }
+
+        if (!message) return;
+
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        bubble.innerText = message;
+
+        // 말풍선 위치 조정
+        const ratioX = this.x / world.clientWidth;
+        if (ratioX < 0.1) {
+            bubble.style.left = '0';
+            bubble.style.transform = 'translateX(0)';
+        } else if (ratioX > 0.9) {
+            bubble.style.left = 'auto';
+            bubble.style.right = '0';
+            bubble.style.transform = 'translateX(0)';
+        } else {
+            bubble.style.left = '50%';
+            bubble.style.transform = 'translateX(-50%)';
+        }
+
+        this.element.appendChild(bubble);
+
+        setTimeout(() => {
+            if (bubble && bubble.parentNode) {
+                bubble.remove();
+            }
+        }, duration);
+    }
+
+    /**
+     * 애니메이션 (오버라이드)
+     */
+    animate() {
+        // 기도 상태와 드래그 상태(매달림)는 단일 프레임 (48x48)이므로 애니메이션 하지 않음
+        if (this.state === 'pray' || this.state === 'drag') {
+            this.spriteElement.style.backgroundPosition = '0px 0px';
+            return;
+        }
+
+        // 그 외 상태는 부모의 애니메이션 로직 따름
+        super.animate();
+    }
+
+    /**
+     * 업데이트 (오버라이드)
+     */
+    update() {
+        // 드래그 중일 때는 애니메이션만 처리
+        if (this.isDragging) {
+            this.animate();
+            return;
+        }
+
+        const now = Date.now();
+
+        // 행동 결정 시간 체크
+        if (now - this.lastDecisionTime > this.decisionDuration) {
+            this.makeDecision();
+            this.lastDecisionTime = now;
+        }
+
+        // 기도 상태일 때는 움직이지 않고 방향도 바꾸지 않음
+        if (this.state === 'pray') {
+            // 위치 고정 (혹시 모를 미세 이동 방지)
+            this.element.style.left = `${this.x}px`;
+            this.element.style.top = `${this.y}px`;
+
+            this.animate(); // 애니메이션 (기도는 정지 이미지)
+
+            // 기도 중에는 자동 대사 금지 (엄숙하게)
+        } else {
+            // 그 외 상태(걷기 등)는 부모 로직 따름
+            super.update();
+        }
+    }
+}
+
 // 게임 루프
 function gameLoop() {
     ratkins.forEach(ratkin => ratkin.update());
@@ -523,7 +713,15 @@ function updateSize() {
 // 이벤트 리스너 등록
 generateBtn.addEventListener('click', () => {
     const id = Date.now();
-    const newRatkin = new Ratkin(id);
+    let newRatkin;
+
+    // 10% 확률로 성자 랫킨 생성
+    if (Math.random() < 0.1) {
+        newRatkin = new SaintRatkin(id);
+    } else {
+        newRatkin = new Ratkin(id);
+    }
+
     ratkins.push(newRatkin);
 });
 

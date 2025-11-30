@@ -278,4 +278,21 @@ body {
     #reset-btn:active {
         transform: scale(0.95);
     }
+
+    #reset-btn:active {
+        transform: scale(0.95);
+    }
+}
+
+/* 푸터 (방문자 카운터) */
+#footer {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+#footer:hover {
+    opacity: 1;
 }

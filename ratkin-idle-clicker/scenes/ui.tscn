@@ -1,0 +1,212 @@
+[gd_scene load_steps=2 format=3 uid="uid://bctcyhpt6b5u0"]
+
+[ext_resource type="Script" uid="uid://cjnum7dd11rvv" path="res://scripts/ui.gd" id="1_nt7q6"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_nt7q6")
+
+[node name="TopLeftInfo" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 400.0
+offset_bottom = 400.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TopLeftInfo"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MoneyLabel" type="Label" parent="TopLeftInfo/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "\"💰 돈: 0\""
+
+[node name="IncomeLabel" type="Label" parent="TopLeftInfo/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "\"초당 수입: 0/초\""
+
+[node name="EfficiencyLabel" type="Label" parent="TopLeftInfo/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1685575, 0.69298804, 0.5240643, 1)
+theme_override_font_sizes/font_size = 20
+text = "\"효율: 100%\""
+
+[node name="HSeparator" type="HSeparator" parent="TopLeftInfo/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HungerContainer" type="VBoxContainer" parent="TopLeftInfo/VBoxContainer"]
+layout_mode = 2
+
+[node name="HungerLabel" type="Label" parent="TopLeftInfo/VBoxContainer/HungerContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "\"🍚 배고픔: 100/100\""
+
+[node name="HungerBar" type="ProgressBar" parent="TopLeftInfo/VBoxContainer/HungerContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+value = 100.0
+
+[node name="FunContainer" type="VBoxContainer" parent="TopLeftInfo/VBoxContainer"]
+layout_mode = 2
+
+[node name="FunLabel" type="Label" parent="TopLeftInfo/VBoxContainer/FunContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "\"😊 재미: 100/100\""
+
+[node name="FunBar" type="ProgressBar" parent="TopLeftInfo/VBoxContainer/FunContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+value = 100.0
+
+[node name="HSeparator2" type="HSeparator" parent="TopLeftInfo/VBoxContainer"]
+layout_mode = 2
+
+[node name="BuyFoodButton" type="Button" parent="TopLeftInfo/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "\"🍚 음식 구매 (5 골드)\""
+
+[node name="BuyEntertainmentButton" type="Button" parent="TopLeftInfo/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "\"🎮 오락 구매 (8 골드)\""
+
+[node name="BottomCenterButtons" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -200.0
+offset_right = 400.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomCenterButtons"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="WorkerPanel" type="VBoxContainer" parent="BottomCenterButtons/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="BuyWorkerButton" type="Button" parent="BottomCenterButtons/HBoxContainer/WorkerPanel"]
+custom_minimum_size = Vector2(240, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "\"일꾼 고용 (비용: 10)\""
+
+[node name="UpgradeWorkerButton" type="Button" parent="BottomCenterButtons/HBoxContainer/WorkerPanel"]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "\"⬆️ 일꾼 업그레이드 (비용: 100)\""
+
+[node name="PriestPanel" type="VBoxContainer" parent="BottomCenterButtons/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="BuyPriestButton" type="Button" parent="BottomCenterButtons/HBoxContainer/PriestPanel"]
+custom_minimum_size = Vector2(240, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "\"수녀 고용 (비용: 20)\""
+
+[node name="UpgradePriestButton" type="Button" parent="BottomCenterButtons/HBoxContainer/PriestPanel"]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "\"⬆️ 수녀 업그레이드 (비용: 500)\""
+
+[node name="CookPanel" type="VBoxContainer" parent="BottomCenterButtons/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="BuyCookButton" type="Button" parent="BottomCenterButtons/HBoxContainer/CookPanel"]
+custom_minimum_size = Vector2(240, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "\"🍳 요리사 고용 (비용: 200)\""
+
+[node name="UpgradeCookButton" type="Button" parent="BottomCenterButtons/HBoxContainer/CookPanel"]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "\"⬆️ 요리사 업그레이드 (비용: 300)\""
+
+[node name="SettingsButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 80.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "⚙️"
+
+[node name="SettingsPopup" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = 100.0
+offset_right = -20.0
+offset_bottom = 250.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPopup"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsPopup/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="SettingsPopup/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="SettingsPopup/VBoxContainer/MarginContainer/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "설정"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="SettingsPopup/VBoxContainer/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="SaveAndQuitButton" type="Button" parent="SettingsPopup/VBoxContainer/MarginContainer/VBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "💾 저장 후 나가기"

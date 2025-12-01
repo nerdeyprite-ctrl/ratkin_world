@@ -1,0 +1,111 @@
+[gd_scene load_steps=16 format=3 uid="uid://cpr3qcpbb2b5j"]
+
+[ext_resource type="Script" uid="uid://cl6q44gqelawm" path="res://scripts/ratkin.gd" id="1_aivqs"]
+[ext_resource type="Texture2D" uid="uid://b5b0upoge313b" path="res://assets/sprites/ratkin/ratkin_walk_sheet.png" id="1_e16xr"]
+[ext_resource type="Texture2D" uid="uid://6bf8her6nxfs" path="res://assets/sprites/ratkin/saint_ratkin_walk_sheet.png" id="2_hui2t"]
+[ext_resource type="Texture2D" uid="uid://breuad5d3qjnj" path="res://assets/sprites/ratkin/ratkin_idle_sheet.png" id="3_rne2y"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rne2y"]
+radius = 12.0
+height = 44.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rne2y"]
+size = Vector2(31.5, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jp0j"]
+atlas = ExtResource("1_e16xr")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lnqpf"]
+atlas = ExtResource("1_e16xr")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x26y2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jp0j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lnqpf")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x26y2"]
+atlas = ExtResource("3_rne2y")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uw0bt"]
+atlas = ExtResource("3_rne2y")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_io1rk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x26y2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uw0bt")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pirl0"]
+atlas = ExtResource("2_hui2t")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rne2y"]
+atlas = ExtResource("2_hui2t")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h3tl2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pirl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rne2y")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Ratkin" type="CharacterBody2D"]
+scale = Vector2(2, 2)
+script = ExtResource("1_aivqs")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
+avoidance_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_rne2y")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.75, -0.5)
+shape = SubResource("RectangleShape2D_rne2y")
+
+[node name="Worker" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_x26y2")
+animation = &"walk"
+
+[node name="Cook" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_io1rk")
+animation = &"walk"
+
+[node name="Priest" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_h3tl2")
+animation = &"walk"
